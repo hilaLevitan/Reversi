@@ -3,8 +3,6 @@
 const SIZE = 8;
 let currentColor = "pink";
 let turns = 4;
-("");
-const matGame = new Array(SIZE).fill(new Array(SIZE).fill(""));
 
 const matColor = [
   new Array(SIZE).fill("grey"),
@@ -17,7 +15,17 @@ const matColor = [
   new Array(SIZE).fill("grey"),
 ];
 const table = document.querySelector("table");
-
+const createAllSquares = function () {
+  for (let i = 0, num = 0; i < SIZE; i++) {
+    const newRow = table.insertRow();
+    for (let j = 0; j < SIZE; j++, num++) {
+      const cell = newRow.insertCell(j);
+      cell.classList.add("cell");
+      cell.dataset.num = num;
+      cell.addEventListener("click", selectCellFun);
+    }
+  }
+};
 const checkIfCertainLockIsValid = function (i, j) {
   return i < SIZE && i > -1 && j < SIZE && j > -1;
 };
@@ -102,16 +110,7 @@ const convertNumToIndexes = function (num) {
   return allowed;
 };
 //a function that couts who is the winner after x turns
-for (let i = 0, num = 0; i < matGame.length; i++) {
-  const newRow = table.insertRow(table.length);
-  for (let j = 0; j < matGame[i].length; j++, num++) {
-    const cell = newRow.insertCell(j);
-    cell.innerHTML = matGame[i][j];
-    cell.classList.add("cell");
-    cell.dataset.num = num;
-    cell.addEventListener("click", selectCellFun);
-  }
-}
+
 const selectFirstFourSquares = function () {
   matColor[SIZE / 2][SIZE / 2 - 1] = "green";
   matColor[SIZE / 2 - 1][SIZE / 2] = "green";
@@ -180,4 +179,5 @@ const victory = function () {
 //SET THE GAME
 const btnSet = document.querySelector(".btn");
 btnSet.addEventListener("click", setGame);
+createAllSquares();
 setGame();
