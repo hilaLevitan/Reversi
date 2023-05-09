@@ -43,6 +43,15 @@ h1 {
   background-color: rgba(32, 100, 83, 0.582);
   opacity: 1;
 }
+.blink {
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.7;
+  }
+}
 .btn {
   width: 180px;
   height: 60px;
