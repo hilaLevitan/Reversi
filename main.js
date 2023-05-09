@@ -163,8 +163,16 @@ const victory = function () {
       if (matColor[i][j] === "pink") pink++;
       if (matColor[i][j] === "green") green++;
     }
-    if (pink > green) console.log("pink has won!!!");
-    else console.log("green has won");
+
+    const allSqures = document.querySelectorAll(".cell");
+    const winner = pink > green ? "pink" : "green";
+
+    for (const square of allSqures)
+      if (square.classList.contains(`${winner}`)) square.classList.add("blink");
+
+    document.querySelector("h1").textContent = `${
+      winner === "pink" ? "player 1 won!!" : "player 2 won!!"
+    }`;
   }
 };
 //SET THE GAME
