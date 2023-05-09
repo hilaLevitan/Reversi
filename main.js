@@ -112,14 +112,7 @@ for (let i = 0, num = 0; i < matGame.length; i++) {
     cell.addEventListener("click", selectCellFun);
   }
 }
-const setGame = function () {
-  document.querySelector("h1").textContent = "Reversi";
-  const allSqures = document.querySelectorAll(".cell");
-  for (const square of allSqures) {
-    square.classList.remove("pink", "green", "blink");
-  }
-  for (let i = 0; i < matColor.length; i++)
-    for (let j = 0; j < matColor[i].length; j++) matColor[i][j] = "grey";
+const selectFirstFourSquares = function () {
   matColor[SIZE / 2][SIZE / 2 - 1] = "green";
   matColor[SIZE / 2 - 1][SIZE / 2] = "green";
   matColor[SIZE / 2 - 1][SIZE / 2 - 1] = "pink";
@@ -136,6 +129,16 @@ const setGame = function () {
   document
     .querySelector(`[data-num='${(SIZE / 2 - 1) * SIZE + SIZE / 2}']`)
     .classList.add("green");
+};
+const setGame = function () {
+  document.querySelector("h1").textContent = "Reversi";
+  const allSqures = document.querySelectorAll(".cell");
+  for (const square of allSqures) {
+    square.classList.remove("pink", "green", "blink");
+  }
+  for (let i = 0; i < matColor.length; i++)
+    for (let j = 0; j < matColor[i].length; j++) matColor[i][j] = "grey";
+  selectFirstFourSquares();
   for (const square of allSqures) {
     if (
       !square.classList.contains("pink") &&
@@ -146,7 +149,6 @@ const setGame = function () {
   currentColor = "pink";
 };
 
-setGame();
 const gameOver = function () {
   for (let i = 0; i < matColor.length; i++) {
     for (let j = 0; j < matColor[i].length; j++)
@@ -178,3 +180,4 @@ const victory = function () {
 //SET THE GAME
 const btnSet = document.querySelector(".btn");
 btnSet.addEventListener("click", setGame);
+setGame();
