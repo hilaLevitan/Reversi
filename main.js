@@ -30,7 +30,7 @@ const checkIfCertainLockIsValid = function (i, j) {
   return i < SIZE && i > -1 && j < SIZE && j > -1;
 };
 const selectCellFun = function (e) {
-  if (convertNumToIndexes(+e.target.dataset.num)) {
+  if (checkIfTurnAllowedAndIfSoMakeTurn(+e.target.dataset.num)) {
     e.target.classList.add(`${currentColor}`);
     currentColor = currentColor === "pink" ? "green" : "pink";
     e.target.removeEventListener("click", selectCellFun);
@@ -58,17 +58,14 @@ function rtrnsTrueIfcetrainDirectionHasMatch(i, j, goi, goj) {
   }
   return false;
 }
-function returnsTrueIfTurnAllowed(i, j) {
-  return (
-    rtrnsTrueIfcetrainDirectionHasMatch(i, j, 1, 1) ||
-    rtrnsTrueIfcetrainDirectionHasMatch(i, j, 1, -1) ||
-    rtrnsTrueIfcetrainDirectionHasMatch(i, j, -1, 1) ||
-    rtrnsTrueIfcetrainDirectionHasMatch(i, j, -1, -1) ||
-    rtrnsTrueIfcetrainDirectionHasMatch(i, j, 0, 1) ||
-    rtrnsTrueIfcetrainDirectionHasMatch(i, j, 1, 0) ||
-    rtrnsTrueIfcetrainDirectionHasMatch(i, j, -1, 0) ||
-    rtrnsTrueIfcetrainDirectionHasMatch(i, j, 0, -1)
-  );
+function isTurnAllowed(i, j) {
+  for (let first = -1; first <= 1; first++) {
+    for (let second = -1; second <= 1; second++) {
+      if (first == 0 && second == 0) continue;
+      if (rtrnsTrueIfcetrainDirectionHasMatch(i, j, first, second)) return true;
+    }
+  }
+  return false;
 }
 function changeColor(i, j, goi, goj) {
   const opposie = currentColor === "pink" ? "green" : "pink";
@@ -83,29 +80,22 @@ function changeColor(i, j, goi, goj) {
   }
 }
 function changeColorsInBOthMats(i, j) {
-  if (rtrnsTrueIfcetrainDirectionHasMatch(i, j, 1, 1)) changeColor(i, j, 1, 1);
-  if (rtrnsTrueIfcetrainDirectionHasMatch(i, j, 1, -1))
-    changeColor(i, j, 1, -1);
-  if (rtrnsTrueIfcetrainDirectionHasMatch(i, j, -1, 1))
-    changeColor(i, j, -1, 1);
-  if (rtrnsTrueIfcetrainDirectionHasMatch(i, j, -1, -1))
-    changeColor(i, j, -1, -1);
-  if (rtrnsTrueIfcetrainDirectionHasMatch(i, j, 0, 1)) changeColor(i, j, 0, 1);
-  if (rtrnsTrueIfcetrainDirectionHasMatch(i, j, 1, 0)) changeColor(i, j, 1, 0);
-  if (rtrnsTrueIfcetrainDirectionHasMatch(i, j, -1, 0))
-    changeColor(i, j, -1, 0);
-  if (rtrnsTrueIfcetrainDirectionHasMatch(i, j, 0, -1))
-    changeColor(i, j, 0, -1);
+  for (let first = -1; first <= 1; first++) {
+    for (let second = -1; second <= 1; second++) {
+      if (first == 0 && second == 0) continue;
+      if (rtrnsTrueIfcetrainDirectionHasMatch(i, j, first, second))
+        changeColor(i, j, first, second);
+    }
+  }
   matColor[i][j] = currentColor;
 }
 // a function that is called after each turn (calls the second function) paints the squares
 //a function that gets num of cell and calls aother function with the indexes
-const convertNumToIndexes = function (num) {
+const checkIfTurnAllowedAndIfSoMakeTurn = function (num) {
   let i, j;
   i = Math.trunc(num / SIZE);
   j = num % SIZE;
-  // console.log(`mat[${i},${j}] :${matColor[i][j]}`);
-  const allowed = returnsTrueIfTurnAllowed(i, j);
+  const allowed = isTurnAllowed(i, j);
   if (allowed) changeColorsInBOthMats(i, j);
   return allowed;
 };
@@ -151,8 +141,7 @@ const setGame = function () {
 const gameOver = function () {
   for (let i = 0; i < matColor.length; i++) {
     for (let j = 0; j < matColor[i].length; j++)
-      if (matColor[i][j] === "grey")
-        if (returnsTrueIfTurnAllowed(i, j)) return false;
+      if (matColor[i][j] === "grey") if (isTurnAllowed(i, j)) return false;
   }
   return true;
 };
