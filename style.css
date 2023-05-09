@@ -1,32 +1,9 @@
-/*table {
-  margin: auto;
-  width: 54%;
-  height: 550px;
-  
-}
-.cell {
-  background-color: gray;
-  width: 12.5%;
-  height: 25px;
-  
-}
-.pink {
-  transition: background-color 0.5s linear;
-  background-color: rgba(7, 5, 7, 0.836);
-  opacity: 1;
-}
-.green {
-  transition: background-color 0.5s linear;
-  background-color: rgb(211, 219, 211);
-  opacity: 1;
-}*/
 table {
   margin: auto;
   width: 54%;
   height: 550px;
   background-color: rgba(255, 255, 255, 0.589);
 }
-
 * {
   padding: 0px;
   margin: 0px;
@@ -44,13 +21,13 @@ h1 {
   color: rgb(15, 68, 64);
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   text-align: center;
-  padding: 10px;
+  /* padding: 10px; */
   text-shadow: 0 0 30px #ffffff;
   font-size: 60px;
 }
 
 .center {
-  padding: 30px;
+  padding: 10px;
 }
 .cell {
   background-color: rgba(0, 0, 0, 0.466);

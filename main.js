@@ -1,25 +1,25 @@
 "use strict";
 //logic
+const SIZE = 8;
 let currentColor = "pink";
-const size = 8;
 let turns = 4;
 ("");
-const matGame = new Array(size).fill(Array(size).fill(""));
+const matGame = new Array(SIZE).fill(new Array(SIZE).fill(""));
 
 const matColor = [
-  new Array(size).fill("grey"),
-  new Array(size).fill("grey"),
-  new Array(size).fill("grey"),
-  new Array(size).fill("grey"),
-  new Array(size).fill("grey"),
-  new Array(size).fill("grey"),
-  new Array(size).fill("grey"),
-  new Array(size).fill("grey"),
+  new Array(SIZE).fill("grey"),
+  new Array(SIZE).fill("grey"),
+  new Array(SIZE).fill("grey"),
+  new Array(SIZE).fill("grey"),
+  new Array(SIZE).fill("grey"),
+  new Array(SIZE).fill("grey"),
+  new Array(SIZE).fill("grey"),
+  new Array(SIZE).fill("grey"),
 ];
 const table = document.querySelector("table");
 
 const checkIfCertainLockIsValid = function (i, j) {
-  return i < size && i > -1 && j < size && j > -1;
+  return i < SIZE && i > -1 && j < SIZE && j > -1;
 };
 const selectCellFun = function (e) {
   if (convertNumToIndexes(+e.target.dataset.num)) {
@@ -27,7 +27,7 @@ const selectCellFun = function (e) {
     currentColor = currentColor === "pink" ? "green" : "pink";
     e.target.removeEventListener("click", selectCellFun);
     turns++;
-    if (turns === size * size || gameOver()) {
+    if (turns === SIZE * SIZE || gameOver()) {
       victory();
       console.log("victory", turns);
     }
@@ -39,7 +39,7 @@ function rtrnsTrueIfcetrainDirectionHasMatch(i, j, goi, goj) {
   let thereIsAnotherColor = false;
   for (
     i += goi, j += goj;
-    i < size && i > -1 && j < size && j > -1;
+    i < SIZE && i > -1 && j < SIZE && j > -1;
     i += goi, j += goj
   ) {
     if (!checkIfCertainLockIsValid(i, j)) return false;
@@ -67,10 +67,10 @@ function changeColor(i, j, goi, goj) {
   for (i += goi, j += goj; matColor[i][j] === opposie; i += goi, j += goj) {
     matColor[i][j] = currentColor;
     document
-      .querySelector(`[data-num='${i * size + j}']`)
+      .querySelector(`[data-num='${i * SIZE + j}']`)
       .classList.remove(`${opposie}`);
     document
-      .querySelector(`[data-num='${i * size + j}']`)
+      .querySelector(`[data-num='${i * SIZE + j}']`)
       .classList.add(`${currentColor}`);
   }
 }
@@ -94,8 +94,8 @@ function changeColorsInBOthMats(i, j) {
 //a function that gets num of cell and calls aother function with the indexes
 const convertNumToIndexes = function (num) {
   let i, j;
-  i = Math.trunc(num / size);
-  j = num % size;
+  i = Math.trunc(num / SIZE);
+  j = num % SIZE;
   // console.log(`mat[${i},${j}] :${matColor[i][j]}`);
   const allowed = returnsTrueIfTurnAllowed(i, j);
   if (allowed) changeColorsInBOthMats(i, j);
@@ -113,21 +113,21 @@ for (let i = 0, num = 0; i < matGame.length; i++) {
   }
 }
 const setGame = function () {
-  matColor[size / 2][size / 2 - 1] = "green";
-  matColor[size / 2 - 1][size / 2] = "green";
-  matColor[size / 2 - 1][size / 2 - 1] = "pink";
-  matColor[size / 2][size / 2] = "pink";
+  matColor[SIZE / 2][SIZE / 2 - 1] = "green";
+  matColor[SIZE / 2 - 1][SIZE / 2] = "green";
+  matColor[SIZE / 2 - 1][SIZE / 2 - 1] = "pink";
+  matColor[SIZE / 2][SIZE / 2] = "pink";
   document
-    .querySelector(`[data-num='${(size / 2 - 1) * size + (size / 2 - 1)}']`)
+    .querySelector(`[data-num='${(SIZE / 2 - 1) * SIZE + (SIZE / 2 - 1)}']`)
     .classList.add("pink");
   document
-    .querySelector(`[data-num='${(size / 2) * size + size / 2}']`)
+    .querySelector(`[data-num='${(SIZE / 2) * SIZE + SIZE / 2}']`)
     .classList.add("pink");
   document
-    .querySelector(`[data-num='${(size / 2) * size + (size / 2 - 1)}']`)
+    .querySelector(`[data-num='${(SIZE / 2) * SIZE + (SIZE / 2 - 1)}']`)
     .classList.add("green");
   document
-    .querySelector(`[data-num='${(size / 2 - 1) * size + size / 2}']`)
+    .querySelector(`[data-num='${(SIZE / 2 - 1) * SIZE + SIZE / 2}']`)
     .classList.add("green");
 };
 
