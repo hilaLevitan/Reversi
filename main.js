@@ -35,15 +35,11 @@ const selectCellFun = function (e) {
     currentColor = currentColor === "pink" ? "green" : "pink";
     e.target.removeEventListener("click", selectCellFun);
     turns++;
-    if (turns === SIZE * SIZE || gameOver()) {
-      victory();
-      console.log("victory", turns);
-    }
+    if (turns === SIZE * SIZE || gameOver()) victory();
   }
-  if (turns > 50) console.log(matColor);
 };
 //a function that returns true if a cetrain direction has a match
-function rtrnsTrueIfcetrainDirectionHasMatch(i, j, goi, goj) {
+function doesDiractionHaveMatch(i, j, goi, goj) {
   let thereIsAnotherColor = false;
   for (
     i += goi, j += goj;
@@ -62,7 +58,7 @@ function isTurnAllowed(i, j) {
   for (let first = -1; first <= 1; first++) {
     for (let second = -1; second <= 1; second++) {
       if (first == 0 && second == 0) continue;
-      if (rtrnsTrueIfcetrainDirectionHasMatch(i, j, first, second)) return true;
+      if (doesDiractionHaveMatch(i, j, first, second)) return true;
     }
   }
   return false;
@@ -83,7 +79,7 @@ function changeColorsInBOthMats(i, j) {
   for (let first = -1; first <= 1; first++) {
     for (let second = -1; second <= 1; second++) {
       if (first == 0 && second == 0) continue;
-      if (rtrnsTrueIfcetrainDirectionHasMatch(i, j, first, second))
+      if (doesDiractionHaveMatch(i, j, first, second))
         changeColor(i, j, first, second);
     }
   }
@@ -100,24 +96,42 @@ const checkIfTurnAllowedAndIfSoMakeTurn = function (num) {
   return allowed;
 };
 //a function that couts who is the winner after x turns
-
+function classList(elt) {
+  let list = elt.classList;
+  return {
+    add: function (c) {
+      list.add(c);
+      return elt;
+    },
+  };
+}
 const selectFirstFourSquares = function () {
   matColor[SIZE / 2][SIZE / 2 - 1] = "green";
   matColor[SIZE / 2 - 1][SIZE / 2] = "green";
   matColor[SIZE / 2 - 1][SIZE / 2 - 1] = "pink";
   matColor[SIZE / 2][SIZE / 2] = "pink";
-  document
-    .querySelector(`[data-num='${(SIZE / 2 - 1) * SIZE + (SIZE / 2 - 1)}']`)
-    .classList.add("pink");
-  document
-    .querySelector(`[data-num='${(SIZE / 2) * SIZE + SIZE / 2}']`)
-    .classList.add("pink");
-  document
-    .querySelector(`[data-num='${(SIZE / 2) * SIZE + (SIZE / 2 - 1)}']`)
-    .classList.add("green");
-  document
-    .querySelector(`[data-num='${(SIZE / 2 - 1) * SIZE + SIZE / 2}']`)
-    .classList.add("green");
+  classList(
+    document.querySelector(
+      `[data-num='${(SIZE / 2 - 1) * SIZE + (SIZE / 2 - 1)}']`
+    )
+  )
+    .add("pink")
+    .removeEventListener("click", selectCellFun);
+  classList(
+    document.querySelector(`[data-num='${(SIZE / 2) * SIZE + SIZE / 2}']`)
+  )
+    .add("pink")
+    .removeEventListener("click", selectCellFun);
+  classList(
+    document.querySelector(`[data-num='${(SIZE / 2) * SIZE + (SIZE / 2 - 1)}']`)
+  )
+    .add("green")
+    .removeEventListener("click", selectCellFun);
+  classList(
+    document.querySelector(`[data-num='${(SIZE / 2 - 1) * SIZE + SIZE / 2}']`)
+  )
+    .add("green")
+    .removeEventListener("click", selectCellFun);
 };
 const setGame = function () {
   document.querySelector("h1").textContent = "Reversi";
@@ -139,8 +153,8 @@ const setGame = function () {
 };
 
 const gameOver = function () {
-  for (let i = 0; i < matColor.length; i++) {
-    for (let j = 0; j < matColor[i].length; j++)
+  for (let i = 0; i < SIZE; i++) {
+    for (let j = 0; j < SIZE; j++)
       if (matColor[i][j] === "grey") if (isTurnAllowed(i, j)) return false;
   }
   return true;
@@ -148,8 +162,8 @@ const gameOver = function () {
 const victory = function () {
   let pink = 0;
   let green = 0;
-  for (let i = 0; i < matColor.length; i++) {
-    for (let j = 0; j < matColor[i].length; j++) {
+  for (let i = 0; i < SIZE; i++) {
+    for (let j = 0; j < SIZE; j++) {
       if (matColor[i][j] === "pink") pink++;
       if (matColor[i][j] === "green") green++;
     }
