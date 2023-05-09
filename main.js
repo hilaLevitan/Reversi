@@ -113,6 +113,13 @@ for (let i = 0, num = 0; i < matGame.length; i++) {
   }
 }
 const setGame = function () {
+  document.querySelector("h1").textContent = "Reversi";
+  const allSqures = document.querySelectorAll(".cell");
+  for (const square of allSqures) {
+    square.classList.remove("pink", "green", "blink");
+  }
+  for (let i = 0; i < matColor.length; i++)
+    for (let j = 0; j < matColor[i].length; j++) matColor[i][j] = "grey";
   matColor[SIZE / 2][SIZE / 2 - 1] = "green";
   matColor[SIZE / 2 - 1][SIZE / 2] = "green";
   matColor[SIZE / 2 - 1][SIZE / 2 - 1] = "pink";
@@ -129,6 +136,14 @@ const setGame = function () {
   document
     .querySelector(`[data-num='${(SIZE / 2 - 1) * SIZE + SIZE / 2}']`)
     .classList.add("green");
+  for (const square of allSqures) {
+    if (
+      !square.classList.contains("pink") &&
+      !square.classList.contains("green")
+    )
+      square.addEventListener("click", selectCellFun);
+  }
+  currentColor = "pink";
 };
 
 setGame();
@@ -152,3 +167,6 @@ const victory = function () {
     else console.log("green has won");
   }
 };
+//SET THE GAME
+const btnSet = document.querySelector(".btn");
+btnSet.addEventListener("click", setGame);

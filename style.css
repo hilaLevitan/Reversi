@@ -21,7 +21,7 @@ h1 {
   color: rgb(15, 68, 64);
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   text-align: center;
-  /* padding: 10px; */
+  padding: 10px;
   text-shadow: 0 0 30px #ffffff;
   font-size: 60px;
 }
@@ -42,4 +42,38 @@ h1 {
   transition: background-color 0.5s linear;
   background-color: rgba(32, 100, 83, 0.582);
   opacity: 1;
+}
+.btn {
+  width: 180px;
+  height: 60px;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid rgba(39, 104, 88, 0.582);
+  outline: none;
+  transition: 1s ease-in-out;
+  position: absolute;
+}
+svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  fill: none;
+  stroke: #fff;
+  stroke-dasharray: 150 480;
+  stroke-dashoffset: 150;
+  transition: 1s ease-in-out;
+}
+.btn:hover {
+  transition: 1s ease-in-out;
+  background: rgba(36, 99, 83, 0.397);
+}
+
+.btn:hover svg {
+  stroke-dashoffset: -480;
+}
+
+.btn span {
+  color: white;
+  font-size: 18px;
+  font-weight: 100;
 }
